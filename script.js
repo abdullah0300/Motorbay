@@ -99,7 +99,7 @@ const carFeatures = {
     'service_history': { name: 'Full Service History', icon: 'fa-tools' },
     'book_pack': { name: 'Full Book Pack', icon: 'fa-book' },
     'warranty': { name: 'Warranty', icon: 'fa-shield-alt' },
-    'import_grade': { name: 'Import Grade', icon: 'fa-star' },
+    'import_grade': { name: 'Import ', icon: 'fa-star' },
     'previous_owners': { name: 'Previous Owners', icon: 'fa-users' },
     'sliding_doors': { name: 'Sliding Doors', icon: 'fa-door-open' },
     'electric_mirrors': { name: 'Electric Mirrors', icon: 'fa-car-side' },
@@ -780,6 +780,7 @@ const featuresHTML = car.features ? `
                                         </span>
                                         <span class="font-medium">${car.mileage.toLocaleString()} km</span>
                                     </div>
+                                    
                                 </div>
                             </div>
 
