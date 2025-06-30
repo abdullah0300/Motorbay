@@ -54,6 +54,47 @@ function updateModalImage() {
     modalCounter.textContent = `${currentModalImageIndex + 1} / ${carImagesArray.length}`;
 }
 
+// Thumbnail scrolling
+let thumbnailScrollPosition = 0;
+
+function scrollThumbnails(direction) {
+    const container = document.getElementById('thumbnail-container');
+    const thumbnailWidth = container.children[0].offsetWidth + 8; // width + gap
+    const visibleThumbnails = 5;
+    const maxScroll = Math.max(0, (container.children.length - visibleThumbnails) * thumbnailWidth);
+    
+    if (direction === 'left') {
+        thumbnailScrollPosition = Math.max(0, thumbnailScrollPosition - thumbnailWidth);
+    } else {
+        thumbnailScrollPosition = Math.min(maxScroll, thumbnailScrollPosition + thumbnailWidth);
+    }
+    
+    container.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+}
+
+// Reset scroll position when changing cars
+function changeMainImage(imageUrl, index) {
+    const mainImage = document.getElementById('main-car-image');
+    if (mainImage) {
+        mainImage.src = imageUrl;
+        currentImageIndex = index;
+        updateThumbnailSelection(index);
+        
+        // Auto-scroll thumbnails to show the selected image
+        const container = document.getElementById('thumbnail-container');
+        if (container) {
+            const thumbnailWidth = container.children[0].offsetWidth + 8;
+            const visibleStart = Math.floor(thumbnailScrollPosition / thumbnailWidth);
+            const visibleEnd = visibleStart + 4;
+            
+            if (index < visibleStart || index > visibleEnd) {
+                thumbnailScrollPosition = Math.max(0, (index - 2) * thumbnailWidth);
+                container.style.transform = `translateX(-${thumbnailScrollPosition}px)`;
+            }
+        }
+    }
+}
+
 // Function to navigate main image
 function navigateMainImage(direction) {
     if (carImagesArray.length > 0) {
@@ -818,22 +859,32 @@ function showCarDetail(carId) {
                     </div>
                     
                     <!-- Thumbnail Gallery -->
-                    ${car.images && car.images.split(',').length > 1 ? `
-                        <div class="bg-gray-100 rounded-xl p-3">
-                            <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
-                                ${car.images.split(',').map((img, index) => `
-                                    <div class="relative cursor-pointer group" onclick="changeMainImage('${img.trim()}', ${index})">
-                                        <img src="${img.trim()}" 
-                                             alt="${car.make} ${car.model} - Image ${index + 1}" 
-                                             class="thumbnail-image w-full h-16 md:h-20 object-cover rounded-lg transition-all duration-200 
-                                                    ${index === 0 ? 'ring-2 ring-cyan-500 opacity-100' : 'opacity-60 hover:opacity-100'}"
-                                             onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'">
-                                        <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 rounded-lg transition-opacity"></div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
+                    <!-- Thumbnail Gallery -->
+${car.images && car.images.split(',').length > 1 ? `
+    <div class="bg-gray-100 rounded-xl p-3 relative">
+        <div class="overflow-hidden">
+            <div class="flex gap-2 transition-transform duration-300" id="thumbnail-container" style="transform: translateX(0);">
+                ${car.images.split(',').map((img, index) => `
+                    <div class="flex-shrink-0 w-[19%] cursor-pointer group" onclick="changeMainImage('${img.trim()}', ${index})">
+                        <img src="${img.trim()}" 
+                             alt="${car.make} ${car.model} - Image ${index + 1}" 
+                             class="thumbnail-image w-full h-16 md:h-20 object-cover rounded-lg transition-all duration-200 
+                                    ${index === 0 ? 'ring-2 ring-cyan-500 opacity-100' : 'opacity-60 hover:opacity-100'}"
+                             onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'">
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+        ${car.images.split(',').length > 5 ? `
+            <button onclick="scrollThumbnails('left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg">
+                <i class="fas fa-chevron-left text-sm"></i>
+            </button>
+            <button onclick="scrollThumbnails('right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg">
+                <i class="fas fa-chevron-right text-sm"></i>
+            </button>
+        ` : ''}
+    </div>
+` : ''}
                 </div>
 
                 <!-- Details Section -->
@@ -1087,13 +1138,13 @@ function showCarDetail(carId) {
 
         // Add car form submission - UPDATED FOR SUPABASE
         document.getElementById('add-car-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const imageFiles = document.getElementById('car-images').files;
-            if (imageFiles.length === 0) {
-                alert('Please select at least one image');
-                return;
-            }
+    e.preventDefault();
+    
+    // Use the global imageFiles array instead of the input files
+    if (imageFiles.length === 0) {
+        alert('Please select at least one image');
+        return;
+    }
             
             const selectedFeatures = [];
 document.querySelectorAll('input[name="features"]:checked').forEach(checkbox => {
@@ -1145,12 +1196,13 @@ document.querySelectorAll('input[name="features"]:checked').forEach(checkbox => 
                 const success = await addCarToSupabase(newCar);
                 
                 if (success) {
-                    alert('Car added successfully!');
-                    this.reset();
-                    document.getElementById('image-preview').innerHTML = '';
-                    showPage('inventory');
-                    updateUIWithCars();
-                }
+    alert('Car added successfully!');
+    this.reset();
+    document.getElementById('image-preview').innerHTML = '';
+    imageFiles = []; // Reset the global imageFiles array
+    showPage('inventory');
+    updateUIWithCars();
+}
             } catch (error) {
                 console.error('Error:', error);
                 alert('Failed to add car. Please try again.');
@@ -1162,25 +1214,135 @@ document.querySelectorAll('input[name="features"]:checked').forEach(checkbox => 
         });
 
         // Handle image preview
-        document.getElementById('car-images').addEventListener('change', function(e) {
-            const files = e.target.files;
-            const preview = document.getElementById('image-preview');
-            preview.innerHTML = '';
+        // Handle image preview with drag and drop
+let imageFiles = [];
+let draggedIndex = null;
+
+document.getElementById('car-images').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    imageFiles = [...imageFiles, ...files];
+    renderImagePreviews();
+});
+
+function renderImagePreviews() {
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = '';
+    
+    imageFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const div = document.createElement('div');
+            div.className = 'relative cursor-move image-preview-item';
+            div.draggable = true;
+            div.dataset.index = index;
             
-            Array.from(files).forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const div = document.createElement('div');
-                    div.className = 'relative';
-                    div.innerHTML = `
-                        <img src="${e.target.result}" class="w-full h-24 object-cover rounded">
-                        <span class="absolute top-0 right-0 bg-cyan-500 text-white text-xs px-2 py-1 rounded-bl">${index + 1}</span>
-                    `;
-                    preview.appendChild(div);
-                };
-                reader.readAsDataURL(file);
-            });
-        });
+            div.innerHTML = `
+                <img src="${e.target.result}" class="w-full h-24 object-cover rounded pointer-events-none">
+                <span class="absolute top-0 right-0 bg-cyan-500 text-white text-xs px-2 py-1 rounded-bl pointer-events-none">${index + 1}</span>
+                <button onclick="removeImage(${index})" class="absolute top-0 left-0 bg-red-500 text-white w-6 h-6 rounded-br flex items-center justify-center hover:bg-red-600">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            `;
+            
+            // Add drag event listeners
+            div.addEventListener('dragstart', handleDragStart);
+            div.addEventListener('dragend', handleDragEnd);
+            div.addEventListener('dragover', handleDragOver);
+            div.addEventListener('drop', handleDrop);
+            div.addEventListener('dragenter', handleDragEnter);
+            div.addEventListener('dragleave', handleDragLeave);
+            
+            preview.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function handleDragStart(e) {
+    draggedIndex = parseInt(e.currentTarget.dataset.index);
+    e.currentTarget.style.opacity = '0.5';
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', e.currentTarget.innerHTML);
+}
+
+function handleDragEnd(e) {
+    e.currentTarget.style.opacity = '';
+    
+    // Remove all drag styling
+    const items = document.querySelectorAll('.image-preview-item');
+    items.forEach(item => {
+        item.classList.remove('border-2', 'border-cyan-500');
+    });
+}
+
+function handleDragOver(e) {
+    if (e.preventDefault) {
+        e.preventDefault();
+    }
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+}
+
+function handleDragEnter(e) {
+    const item = e.currentTarget;
+    if (item.classList.contains('image-preview-item')) {
+        item.classList.add('border-2', 'border-cyan-500');
+    }
+}
+
+function handleDragLeave(e) {
+    const item = e.currentTarget;
+    if (item.classList.contains('image-preview-item')) {
+        item.classList.remove('border-2', 'border-cyan-500');
+    }
+}
+
+function handleDrop(e) {
+    if (e.stopPropagation) {
+        e.stopPropagation();
+    }
+    e.preventDefault();
+    
+    const dropTarget = e.currentTarget;
+    if (!dropTarget.classList.contains('image-preview-item')) {
+        return false;
+    }
+    
+    dropTarget.classList.remove('border-2', 'border-cyan-500');
+    
+    const droppedIndex = parseInt(dropTarget.dataset.index);
+    
+    if (draggedIndex !== null && draggedIndex !== droppedIndex) {
+        // Reorder the files array
+        const draggedFile = imageFiles[draggedIndex];
+        
+        // Remove the dragged item
+        imageFiles.splice(draggedIndex, 1);
+        
+        // Insert at new position
+        if (draggedIndex < droppedIndex) {
+            imageFiles.splice(droppedIndex - 1, 0, draggedFile);
+        } else {
+            imageFiles.splice(droppedIndex, 0, draggedFile);
+        }
+        
+        // Re-render previews
+        renderImagePreviews();
+    }
+    
+    draggedIndex = null;
+    return false;
+}
+
+function removeImage(index) {
+    imageFiles.splice(index, 1);
+    renderImagePreviews();
+    
+    // Update the file input
+    const dataTransfer = new DataTransfer();
+    imageFiles.forEach(file => dataTransfer.items.add(file));
+    document.getElementById('car-images').files = dataTransfer.files;
+}
 
         // Delete car - UPDATED FOR SUPABASE
         async function deleteCar(carId) {
