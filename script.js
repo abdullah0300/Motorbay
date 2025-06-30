@@ -315,6 +315,9 @@ function initializeAddCarForm() {
                     images: record.images || record.image || '',
                     description: record.description || 'No description available.',
                         features: record.features || '' // ADD THIS LINE
+                        ,color: record.color || 'Not specified',
+                        seats: parseInt(record.seats) || 5,
+                        doors: parseInt(record.doors) || 4
                 }));
 
                 console.log('Cars loaded successfully:', carInventory.length);
@@ -379,7 +382,9 @@ function initializeAddCarForm() {
                         images: carData.images,
                         description: carData.description,
                     features: carData.features // ADD THIS LINE
-
+                    ,color: carData.color,          
+                    seats: parseInt(carData.seats),
+                    doors: parseInt(carData.doors)
                     }])
                     .select()
                     .single();
@@ -933,6 +938,24 @@ ${car.images && car.images.split(',').length > 1 ? `
                                 </span>
                                 <span class="font-medium">${car.mileage.toLocaleString()} km</span>
                             </div>
+                            <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-palette text-cyan-500"></i> Color
+                                </span>
+                                <span class="font-medium">${car.color}</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-couch text-cyan-500"></i> Seats
+                                </span>
+                                <span class="font-medium">${car.seats} Seats</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-door-open text-cyan-500"></i> Doors
+                                </span>
+                                <span class="font-medium">${car.doors} Doors</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1189,6 +1212,9 @@ document.querySelectorAll('input[name="features"]:checked').forEach(checkbox => 
                     image: imageUrls[0], // First image as main
                     images: imageUrls.join(','), // All images as comma-separated string
                         features: selectedFeatures.join(','), // Store as comma-separated string
+                        color: document.getElementById('car-color').value,
+                    seats: parseInt(document.getElementById('car-seats').value),
+                    doors: parseInt(document.getElementById('car-doors').value),
                     description: document.getElementById('car-description').value || 'No description available.'
                 };
                 
