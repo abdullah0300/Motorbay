@@ -1,4 +1,93 @@
  
+// Global variables for modal functionality
+let currentModalImageIndex = 0;
+let carImagesArray = [];
+
+// Function to open image modal
+function openImageModal(imageIndex = 0) {
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalCounter = document.getElementById('modal-image-counter');
+    
+    if (carImagesArray.length > 0) {
+        currentModalImageIndex = imageIndex;
+        modalImage.src = carImagesArray[currentModalImageIndex];
+        modalCounter.textContent = `${currentModalImageIndex + 1} / ${carImagesArray.length}`;
+        modal.classList.remove('hidden');
+        
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// Function to close image modal
+function closeImageModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.add('hidden');
+    
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
+}
+
+// Function to show previous image in modal
+function previousModalImage() {
+    if (carImagesArray.length > 0) {
+        currentModalImageIndex = (currentModalImageIndex - 1 + carImagesArray.length) % carImagesArray.length;
+        updateModalImage();
+    }
+}
+
+// Function to show next image in modal
+function nextModalImage() {
+    if (carImagesArray.length > 0) {
+        currentModalImageIndex = (currentModalImageIndex + 1) % carImagesArray.length;
+        updateModalImage();
+    }
+}
+
+// Function to update modal image
+function updateModalImage() {
+    const modalImage = document.getElementById('modal-image');
+    const modalCounter = document.getElementById('modal-image-counter');
+    
+    modalImage.src = carImagesArray[currentModalImageIndex];
+    modalCounter.textContent = `${currentModalImageIndex + 1} / ${carImagesArray.length}`;
+}
+
+// Function to navigate main image
+function navigateMainImage(direction) {
+    if (carImagesArray.length > 0) {
+        let newIndex;
+        if (direction === 'prev') {
+            newIndex = (currentModalImageIndex - 1 + carImagesArray.length) % carImagesArray.length;
+        } else {
+            newIndex = (currentModalImageIndex + 1) % carImagesArray.length;
+        }
+        
+        // Update main image
+        const mainImage = document.getElementById('main-car-image');
+        if (mainImage) {
+            mainImage.src = carImagesArray[newIndex];
+            currentModalImageIndex = newIndex;
+            
+            // Update thumbnails active state
+            updateThumbnails(newIndex);
+        }
+    }
+}
+
+// Function to update thumbnail active states
+function updateThumbnails(activeIndex) {
+    const thumbnails = document.querySelectorAll('.thumbnail-img');
+    thumbnails.forEach((thumb, index) => {
+        if (index === activeIndex) {
+            thumb.classList.add('border-cyan-500', 'border-2');
+        } else {
+            thumb.classList.remove('border-cyan-500', 'border-2');
+        }
+    });
+}
+
 // Mobile menu toggle
 function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobile-menu');
@@ -655,207 +744,215 @@ function updateThumbnailSelection(activeIndex) {
 }
 
 
+function showCarDetail(carId) {
+    const car = carInventory.find(c => c.id === carId);
+    if (!car) return;
+    
+    // Add these two lines for modal functionality
+    const imageUrls = car.images ? (typeof car.images === 'string' ? car.images.split(',').filter(img => img.trim()) : car.images) : [car.image];
+    carImagesArray = imageUrls;
+    currentModalImageIndex = 0;
+    
+    const detailContent = document.getElementById('car-detail-content');
+    detailContent.setAttribute('data-car-id', carId);
 
-          // Show car detail
-        function showCarDetail(carId) {
-            const car = carInventory.find(c => c.id === carId);
-            if (!car) return;
-            
-            const detailContent = document.getElementById('car-detail-content');
-detailContent.setAttribute('data-car-id', carId);
-
-// Add this section in the car detail HTML where you want features to appear
-const featuresHTML = car.features ? `
-    <div class="bg-white rounded-2xl shadow-lg p-6 mt-6">
-        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-            <i class="fas fa-check-circle text-cyan-500"></i>
-            Vehicle Features
-        </h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-            ${car.features.split(',').map(feature => {
-                const featureData = carFeatures[feature];
-                return featureData ? `
-                    <div class="flex items-center gap-2 text-md">
-                        <i class="fas ${featureData.icon} text-cyan-500"></i>
-                        <span>${featureData.name}</span>
-                    </div>
-                ` : '';
-            }).join('')}
-        </div>
-    </div>
-` : '';
-
-const deleteButton = isAdminMode ? `
-    <button onclick="deleteCar('${car.id}')" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center gap-2">
-        <i class="fas fa-trash"></i> Delete Car
-    </button>
-` : '';
-
-detailContent.innerHTML = `
-    <div class="max-w-7xl mx-auto">
-        <!-- Modern Header with Background -->
-        <div class="relative bg-gradient-to-r from-gray-900 to-gray-700 rounded-t-3xl overflow-hidden mb-8">
-            <div class="absolute inset-0 bg-black opacity-30"></div>
-            <div class="relative z-10 p-8 text-white">
-                <h1 class="text-4xl md:text-5xl font-bold mb-2">${car.make} ${car.model}</h1>
-                <p class="text-xl opacity-90">${car.year} • ${car.body} • ${car.fuel}</p>
+    const featuresHTML = car.features ? `
+        <div class="bg-white rounded-2xl shadow-lg p-6 mt-6">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                <i class="fas fa-check-circle text-cyan-500"></i>
+                Vehicle Features
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                ${car.features.split(',').map(feature => {
+                    const featureData = carFeatures[feature];
+                    return featureData ? `
+                        <div class="flex items-center gap-2 text-md">
+                            <i class="fas ${featureData.icon} text-cyan-500"></i>
+                            <span>${featureData.name}</span>
+                        </div>
+                    ` : '';
+                }).join('')}
             </div>
         </div>
+    ` : '';
 
-        <div class="grid lg:grid-cols-2 gap-8">
-            <!-- Image Gallery Section -->
-            <div class="space-y-4">
-                <!-- Main Image -->
-                <div class="relative overflow-hidden rounded-2xl shadow-2xl">
-                    <img id="main-car-image" src="${car.image}" alt="${car.make} ${car.model}" class="w-full h-[400px] object-cover">
-                    <div class="absolute top-4 right-4 bg-cyan-500 text-white px-4 py-2 rounded-full font-semibold">
-                        ${car.year}
+    const deleteButton = isAdminMode ? `
+        <button onclick="deleteCar('${car.id}')" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center gap-2">
+            <i class="fas fa-trash"></i> Delete Car
+        </button>
+    ` : '';
+
+    detailContent.innerHTML = `
+        <div class="max-w-7xl mx-auto">
+            <!-- Modern Header with Background -->
+            <div class="relative bg-gradient-to-r from-gray-900 to-gray-700 rounded-t-3xl overflow-hidden mb-8">
+                <div class="absolute inset-0 bg-black opacity-30"></div>
+                <div class="relative z-10 p-8 text-white">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-2">${car.make} ${car.model}</h1>
+                    <p class="text-xl opacity-90">${car.year} • ${car.body} • ${car.fuel}</p>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Image Gallery Section -->
+                <div class="space-y-4">
+                    <!-- Main Image -->
+                    <div class="main-image-container relative overflow-hidden rounded-2xl shadow-2xl">
+                        <img id="main-car-image" src="${car.image}" alt="${car.make} ${car.model}" 
+                             class="w-full h-[400px] object-cover cursor-pointer"
+                             onclick="openImageModal(0)">
+                        <div class="absolute top-4 right-4 bg-cyan-500 text-white px-4 py-2 rounded-full font-semibold">
+                            ${car.year}
+                        </div>
+                        ${car.images && car.images.split(',').length > 1 ? `
+                            <div class="absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-images mr-1"></i> ${car.images.split(',').length} Photos
+                            </div>
+                            <button onclick="navigateMainImage('prev')" class="image-nav-arrow prev">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button onclick="navigateMainImage('next')" class="image-nav-arrow next">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        ` : ''}
                     </div>
+                    
+                    <!-- Thumbnail Gallery -->
                     ${car.images && car.images.split(',').length > 1 ? `
-                        <div class="absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                            <i class="fas fa-images mr-1"></i> ${car.images.split(',').length} Photos
+                        <div class="bg-gray-100 rounded-xl p-3">
+                            <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
+                                ${car.images.split(',').map((img, index) => `
+                                    <div class="relative cursor-pointer group" onclick="changeMainImage('${img.trim()}', ${index})">
+                                        <img src="${img.trim()}" 
+                                             alt="${car.make} ${car.model} - Image ${index + 1}" 
+                                             class="thumbnail-image w-full h-16 md:h-20 object-cover rounded-lg transition-all duration-200 
+                                                    ${index === 0 ? 'ring-2 ring-cyan-500 opacity-100' : 'opacity-60 hover:opacity-100'}"
+                                             onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'">
+                                        <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 rounded-lg transition-opacity"></div>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
                     ` : ''}
                 </div>
-                
-                <!-- Thumbnail Gallery -->
-                ${car.images && car.images.split(',').length > 1 ? `
-                    <div class="bg-gray-100 rounded-xl p-3">
-                        <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
-                            ${car.images.split(',').map((img, index) => `
-                                <div class="relative cursor-pointer group" onclick="changeMainImage('${img.trim()}', ${index})">
-                                    <img src="${img.trim()}" 
-                                         alt="${car.make} ${car.model} - Image ${index + 1}" 
-                                         class="thumbnail-image w-full h-16 md:h-20 object-cover rounded-lg transition-all duration-200 
-                                                ${index === 0 ? 'ring-2 ring-cyan-500 opacity-100' : 'opacity-60 hover:opacity-100'}"
-                                         onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'">
-                                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 rounded-lg transition-opacity"></div>
-                                </div>
-                            `).join('')}
-                        </div>
+
+                <!-- Details Section -->
+                <div class="space-y-6">
+                    <!-- Price Card -->
+                    <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-2xl p-6 text-white shadow-xl">
+                        <p class="text-lg mb-2">Our Price</p>
+                        <p class="text-5xl font-bold mb-4">${car.price.toLocaleString()}</p>
+                        <p class="text-sm opacity-90">*Includes all fees except registration</p>
                     </div>
-                ` : ''}
-            </div>
 
-            <!-- Details Section -->
-            <div class="space-y-6">
-                <!-- Price Card -->
-                <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-2xl p-6 text-white shadow-xl">
-                    <p class="text-lg mb-2">Our Price</p>
-                    <p class="text-5xl font-bold mb-4">${car.price.toLocaleString()}</p>
-                    <p class="text-sm opacity-90">*Includes all fees except registration</p>
-                </div>
-
-                <!-- Specifications -->
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-                        <i class="fas fa-clipboard-list text-cyan-500"></i>
-                        Vehicle Specifications
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
-                            <span class="text-gray-600 flex items-center gap-2">
-                                <i class="fas fa-car text-cyan-500"></i> Make
-                            </span>
-                            <span class="font-medium">${car.make}</span>
-                        </div>
-                        <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
-                            <span class="text-gray-600 flex items-center gap-2">
-                                <i class="fas fa-tag text-cyan-500"></i> Model
-                            </span>
-                            <span class="font-medium">${car.model}</span>
-                        </div>
-                        <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
-                            <span class="text-gray-600 flex items-center gap-2">
-                                <i class="fas fa-calendar text-cyan-500"></i> Year
-                            </span>
-                            <span class="font-medium">${car.year}</span>
-                        </div>
-                        <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
-                            <span class="text-gray-600 flex items-center gap-2">
-                                <i class="fas fa-car-side text-cyan-500"></i> Body Type
-                            </span>
-                            <span class="font-medium">${car.body}</span>
-                        </div>
-                        <div class="flex justify-between items-center py-3 hover:bg-gray-50 px-2 rounded transition">
-                            <span class="text-gray-600 flex items-center gap-2">
-                                <i class="fas fa-road text-cyan-500"></i> Mileage
-                            </span>
-                            <span class="font-medium">${car.mileage.toLocaleString()} km</span>
-                        </div>
-                    </div>
-                </div>
-
-                ${featuresHTML}
-                
-                <!-- Description -->
-                <div class="bg-gray-50 rounded-2xl p-6">
-                    <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
-                        <i class="fas fa-info-circle text-cyan-500"></i>
-                        About This Vehicle
-                    </h3>
-                    <p class="text-gray-700 leading-relaxed">${car.description}</p>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex gap-4">
-                    <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'}); showPage('home');" 
-                        class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-4 rounded-xl font-semibold transition duration-200 flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fas fa-phone"></i> Contact Us
-                    </button>
-                    
-                    ${deleteButton}
-                </div>
-
-                <!-- Trust Badges -->
-                <div class="grid grid-cols-3 gap-4 pt-4">
-                    <div class="text-center">
-                        <i class="fas fa-shield-alt text-cyan-500 text-2xl mb-2"></i>
-                        <p class="text-xs text-gray-600">Certified Quality</p>
-                    </div>
-                    <div class="text-center">
-                        <i class="fas fa-award text-cyan-500 text-2xl mb-2"></i>
-                        <p class="text-xs text-gray-600">Best Price</p>
-                    </div>
-                    <div class="text-center">
-                        <i class="fas fa-handshake text-cyan-500 text-2xl mb-2"></i>
-                        <p class="text-xs text-gray-600">Trusted Dealer</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Similar Cars Section -->
-        <div class="mt-12">
-            <h3 class="text-2xl font-semibold mb-6">You May Also Like</h3>
-            <div class="grid md:grid-cols-3 gap-6">
-                ${carInventory
-                    .filter(c => c.id !== car.id && (c.body === car.body || c.make === car.make))
-                    .slice(0, 3)
-                    .map(similarCar => `
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition" onclick="showCarDetail('${similarCar.id}')">
-                            <img src="${similarCar.image}" alt="${similarCar.make} ${similarCar.model}" class="w-full h-48 object-cover">
-                            <div class="p-4">
-                                <h4 class="font-semibold">${similarCar.make} ${similarCar.model}</h4>
-                                <p class="text-gray-600 text-sm">${similarCar.year} • ${similarCar.fuel}</p>
-                                <p class="text-xl font-bold text-cyan-500 mt-2">${similarCar.price.toLocaleString()}</p>
+                    <!-- Specifications -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                            <i class="fas fa-clipboard-list text-cyan-500"></i>
+                            Vehicle Specifications
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-car text-cyan-500"></i> Make
+                                </span>
+                                <span class="font-medium">${car.make}</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-tag text-cyan-500"></i> Model
+                                </span>
+                                <span class="font-medium">${car.model}</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-calendar text-cyan-500"></i> Year
+                                </span>
+                                <span class="font-medium">${car.year}</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-car-side text-cyan-500"></i> Body Type
+                                </span>
+                                <span class="font-medium">${car.body}</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 hover:bg-gray-50 px-2 rounded transition">
+                                <span class="text-gray-600 flex items-center gap-2">
+                                    <i class="fas fa-road text-cyan-500"></i> Mileage
+                                </span>
+                                <span class="font-medium">${car.mileage.toLocaleString()} km</span>
                             </div>
                         </div>
-                    `).join('')}
+                    </div>
+
+                    ${featuresHTML}
+                    
+                    <!-- Description -->
+                    <div class="bg-gray-50 rounded-2xl p-6">
+                        <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                            <i class="fas fa-info-circle text-cyan-500"></i>
+                            About This Vehicle
+                        </h3>
+                        <p class="text-gray-700 leading-relaxed">${car.description}</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4">
+                        <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'}); showPage('home');" 
+                            class="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-4 rounded-xl font-semibold transition duration-200 flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fas fa-phone"></i> Contact Us
+                        </button>
+                        
+                        ${deleteButton}
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="grid grid-cols-3 gap-4 pt-4">
+                        <div class="text-center">
+                            <i class="fas fa-shield-alt text-cyan-500 text-2xl mb-2"></i>
+                            <p class="text-xs text-gray-600">Certified Quality</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-award text-cyan-500 text-2xl mb-2"></i>
+                            <p class="text-xs text-gray-600">Best Price</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-handshake text-cyan-500 text-2xl mb-2"></i>
+                            <p class="text-xs text-gray-600">Trusted Dealer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Cars Section -->
+            <div class="mt-12">
+                <h3 class="text-2xl font-semibold mb-6">You May Also Like</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    ${carInventory
+                        .filter(c => c.id !== car.id && (c.body === car.body || c.make === car.make))
+                        .slice(0, 3)
+                        .map(similarCar => `
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition" onclick="showCarDetail('${similarCar.id}')">
+                                <img src="${similarCar.image}" alt="${similarCar.make} ${similarCar.model}" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h4 class="font-semibold">${similarCar.make} ${similarCar.model}</h4>
+                                    <p class="text-gray-600 text-sm">${similarCar.year} • ${similarCar.fuel}</p>
+                                    <p class="text-xl font-bold text-cyan-500 mt-2">${similarCar.price.toLocaleString()}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                </div>
             </div>
         </div>
-    </div>
-`;
-            
-            showPage('car-detail');
-            // Reset image gallery to first image
-currentImageIndex = 0;
-setTimeout(() => {
-    updateThumbnailSelection(0);
-}, 100);
+    `;
+    
+    currentImageIndex = 0;
+    setTimeout(() => {
+        updateThumbnailSelection(0);
+    }, 100);
 
-showPage('car-detail');
-        }
+    showPage('car-detail');
+}
 
         // Handle contact form
         function handleContactForm(e) {
@@ -1231,4 +1328,21 @@ window.addEventListener('load', function() {
 
    
    
-   
+    // Close modal when clicking outside the image
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('image-modal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeImageModal();
+        }
+    });
+});

@@ -191,6 +191,67 @@
                 -ms-user-select: text;
                 user-select: text;
             }
+            /* Main image container styles */
+.main-image-container {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.main-image-container:hover .image-nav-arrow {
+    opacity: 1;
+}
+
+.image-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.image-nav-arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.image-nav-arrow.prev {
+    left: 16px;
+}
+
+.image-nav-arrow.next {
+    right: 16px;
+}
+
+/* Image modal animations */
+#image-modal {
+    animation: fadeIn 0.3s ease;
+}
+
+#image-modal.hidden {
+    animation: fadeOut 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
         </style>
         <style>
     /* Smooth transition for mobile menu */
@@ -291,7 +352,7 @@
                     <div class="max-w-2xl">
                         <h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
                             Experience Luxury & Reliability<br>
-                            with <span class="text-cyan-400">MOTORGATE</span><br>
+                            with <span class="text-cyan-400">MOTORBAY</span><br>
                             Your Car, Our Promise.
                         </h1>
 
@@ -1202,18 +1263,40 @@
         </div>
 
         <!-- Car Detail Page -->
-        <div id="car-detail-page" class="page-content">
-            <section class="py-16">
-                <div class="container mx-auto px-4">
-                    <button onclick="showPage('inventory')" class="mb-4 text-cyan-500 hover:text-cyan-600">
-                        <i class="fas fa-arrow-left mr-2"></i>Back to Showroom
-                    </button>
-                    <div id="car-detail-content">
-                        <!-- Car details will be dynamically loaded here -->
-                    </div>
-                </div>
-            </section>
+        <!-- Car Detail Page -->
+<div id="car-detail-page" class="page-content">
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <button onclick="showPage('inventory')" class="mb-4 text-cyan-500 hover:text-cyan-600">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Showroom
+            </button>
+            <div id="car-detail-content">
+                <!-- Car details will be dynamically loaded here -->
+            </div>
         </div>
+    </section>
+    
+    <!-- Full Screen Image Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden flex items-center justify-center">
+        <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-60">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <button onclick="previousModalImage()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-16 h-16 flex items-center justify-center">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <button onclick="nextModalImage()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-16 h-16 flex items-center justify-center">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        
+        <img id="modal-image" src="" alt="Full size image" class="max-w-full max-h-full object-contain">
+        
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-lg">
+            <span id="modal-image-counter">1 / 1</span>
+        </div>
+    </div>
+</div>
 
         <!-- Search Results Page -->
         <div id="search-results-page" class="page-content">
@@ -1549,7 +1632,7 @@
             <div class="container mx-auto px-4">
                 <!-- Logo and Tagline -->
                 <div class="text-center mb-12">
-                    <img src="logo2.png" alt="Motorgate" class=" mx-auto mb-4">
+                    <img src="logo2.png" alt="Motorbay" class=" mx-auto mb-4">
                     <p class="text-sm">Your trusted partner for premium cars - Motorbay</p>
                 </div>
 
