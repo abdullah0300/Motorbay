@@ -335,7 +335,7 @@
 
         <!-- Home Page Content -->
         <div id="home-page" class="page-content active">
-            <section class="relative h-[500px] min-h-[500px] flex items-center">
+            <section class="relative h-[500px] min-h-[500px] md:h-screen md:min-h-[600px] flex items-center">
     <!-- Background Image -->
     <div class="absolute inset-0 z-0">
         <img src="2023-toyota-prius_100883317.png" alt="Luxury car background" class="w-full h-full object-cover">
@@ -442,37 +442,37 @@
 
             <!-- Latest Arrival Section - Exact Carousel Design -->
             <section class="py-16 bg-white">
-                <div class="container mx-auto px-4">
-                    <!-- Title -->
-                    <h2 class="text-4xl font-bold text-center mb-12">Latest Arrival</h2>
+    <div class="container mx-auto px-4">
+        <!-- Title -->
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Latest Arrival</h2>
 
-                    <!-- Carousel Container -->
-                    <div class="relative max-w-6xl mx-auto">
-                        <div class="relative overflow-hidden rounded-3xl">
-                            <div class="flex transition-transform duration-500 ease-in-out" id="carouselTrack"
-                                style="transform: translateX(-100%);">
-                                <!-- Dynamic carousel content will be loaded here -->
-                            </div>
-                        </div>
-
-                        <!-- Navigation Arrows -->
-                        <button onclick="previousSlide()"
-                            class="absolute left-8 top-1/2 -translate-y-1/2 bg-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all z-20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                                </path>
-                            </svg>
-                        </button>
-
-                        <button onclick="nextSlide()"
-                            class="absolute right-8 top-1/2 -translate-y-1/2 bg-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all z-20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
+        <!-- Carousel Container -->
+        <div class="relative max-w-6xl mx-auto">
+            <div class="relative overflow-hidden rounded-3xl">
+                <div class="flex transition-transform duration-500 ease-in-out" id="carouselTrack"
+                    style="transform: translateX(-100%);">
+                    <!-- Dynamic carousel content will be loaded here -->
                 </div>
-            </section>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button onclick="previousSlide()"
+                class="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all z-20">
+                <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                    </path>
+                </svg>
+            </button>
+
+            <button onclick="nextSlide()"
+                class="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all z-20">
+                <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
 
             <!-- Your One-Stop Solution for Cars Section -->
             <section class="py-16 bg-white ">
