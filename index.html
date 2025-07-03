@@ -476,100 +476,100 @@
 
             <!-- Your One-Stop Solution for Cars Section -->
             <section class="py-16 bg-white ">
-                <div class="container mx-auto px-4">
-                    <!-- Title and Description -->
-                    <div class="text-center mb-2">
-                        <h2 class="text-4xl font-bold mb-4">Your One-Stop Solution for Cars</h2>
-                        <p class="text-gray-600 max-w-3xl mx-auto">
-                            At Motorbay, we cater to all your automotive needs under one roof. From finding your dream car to
-                            expert services,.
-                            We ensure a seamless and superior experience at every step.
-                        </p>
+    <div class="container mx-auto px-4">
+        <!-- Title and Description -->
+        <div class="text-center mb-2">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Your One-Stop Solution for Cars</h2>
+            <p class="text-gray-600 max-w-3xl mx-auto px-4">
+                At Motorbay, we cater to all your automotive needs under one roof. From finding your dream car to
+                expert services,.
+                We ensure a seamless and superior experience at every step.
+            </p>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-start p-4 sm:p-8 lg:p-[4rem]">
+
+            <!-- Left Side - Search Form -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+                <div class="bg-cyan-500 text-white text-lg sm:text-xl font-semibold py-3 px-4 sm:px-6 -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6 rounded-t-2xl">
+                    Search for a Vehicle:
+                </div>
+
+                <!-- Dropdown Fields -->
+                <div class="space-y-4 mb-6">
+                <div class="logo-dropdown-wrapper">
+                    <div class="logo-dropdown-trigger" onclick="toggleLogoDropdown()">
+                        <select id="search-make" onchange="handleMakeChange()" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500 pointer-events-none">
+                            <option value="">Make (Any)</option>
+                        </select>
                     </div>
-
-                    <!-- Main Content Grid -->
-                    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start p-[4rem]">
-
-                        <!-- Left Side - Search Form -->
-                        <div class="bg-white rounded-2xl shadow-lg p-8">
-                            <div class="bg-cyan-500 text-white text-xl font-semibold py-3 px-6 -mx-8 -mt-8 mb-6 rounded-t-2xl">
-                                Search for a Vehicle:
-                            </div>
-
-                            <!-- Dropdown Fields -->
-                            <div class="space-y-4 mb-6">
-                            <div class="logo-dropdown-wrapper">
-                                <div class="logo-dropdown-trigger" onclick="toggleLogoDropdown()">
-                                    <select id="search-make" onchange="handleMakeChange()" 
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500 pointer-events-none">
-                                        <option value="">Make (Any)</option>
-                                    </select>
-                                </div>
-                                <div id="logo-dropdown" class="logo-dropdown">
-                                    <ul class="logo-list" id="logo-list">
-                                        <!-- Logo items will be dynamically added here -->
-                                    </ul>
-                                </div>
-                            </div>
-
-                                <select id="search-model" onchange="handleModelChange()"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500">
-                                    <option value="">Model (Any)</option>
-                                </select>
-
-                                <select id="search-body"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500">
-                                    <option value="">Body Type (Any)</option>
-                                </select>
-
-                                <select id="search-fuel"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-whi focus:outline-none focus:border-cyan-500">
-                                    <option value="">Fuel (Any)</option>
-                                </select>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="flex gap-4 justify-end">
-                                <button onclick="clearSearch()" class="text-cyan-500 hover:text-cyan-600 font-medium px-6 py-2">
-                                    Clear
-                                </button>
-                                <button onclick="performSearch()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium px-8 py-2.5 rounded">
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Right Side - Services -->
-                        <div class="space-y-12 ">
-                            <!-- Services Section -->
-                            <div class="text-center p-4 shadow-lg mt-2 " style=" border-radius: 10px;">
-                                <div class="w-18 h-16 mt-[-3rem] rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <img src="Frame 32.png" />
-                                </div>
-                                <h3 class="text-2xl font-semibold mb-3">Services</h3>
-                                <p class="text-gray-600">
-                                    Expert Care for Your Ride – Reliable Service,<br>
-                                    Every Time!
-                                </p>
-                            </div>
-
-                            <!-- Nationwide Delivery Section -->
-                            <div class="text-center shadow-lg p-4" style="border-radius: 10px;">
-                                <div
-                                    class=" w-18 h-16 mt-[-3rem] rounded-full flex items-center justify-center mx-auto mb-4 relative">
-                                    <img src="Group 50.png" />
-                                </div>
-                                <h3 class="text-2xl font-semibold mb-3">Nationwide Delivery</h3>
-                                <p class="text-gray-600">
-                                    Experience seamless nationwide delivery<br>
-                                    with our dealership's trusted service
-                                </p>
-                            </div>
-                        </div>
-
+                    <div id="logo-dropdown" class="logo-dropdown">
+                        <ul class="logo-list" id="logo-list">
+                            <!-- Logo items will be dynamically added here -->
+                        </ul>
                     </div>
                 </div>
-            </section>
+
+                    <select id="search-model" onchange="handleModelChange()"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500">
+                        <option value="">Model (Any)</option>
+                    </select>
+
+                    <select id="search-body"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500">
+                        <option value="">Body Type (Any)</option>
+                    </select>
+
+                    <select id="search-fuel"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:border-cyan-500">
+                        <option value="">Fuel (Any)</option>
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-end">
+                    <button onclick="clearSearch()" class="text-cyan-500 hover:text-cyan-600 font-medium px-6 py-2 order-2 sm:order-1">
+                        Clear
+                    </button>
+                    <button onclick="performSearch()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium px-8 py-2.5 rounded order-1 sm:order-2">
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side - Services -->
+            <div class="space-y-8 sm:space-y-12 ">
+                <!-- Services Section -->
+                <div class="text-center p-4 shadow-lg mt-2 " style=" border-radius: 10px;">
+                    <div class="w-18 h-16 mt-[-2rem] sm:mt-[-3rem] rounded-full flex items-center justify-center mx-auto mb-4">
+                        <img src="Frame 32.png" />
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-3">Services</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">
+                        Expert Care for Your Ride – Reliable Service,<br class="hidden sm:block">
+                        Every Time!
+                    </p>
+                </div>
+
+                <!-- Nationwide Delivery Section -->
+                <div class="text-center shadow-lg p-4" style="border-radius: 10px;">
+                    <div
+                        class=" w-18 h-16 mt-[-2rem] sm:mt-[-3rem] rounded-full flex items-center justify-center mx-auto mb-4 relative">
+                        <img src="Group 50.png" />
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-3">Nationwide Delivery</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">
+                        Experience seamless nationwide delivery<br class="hidden sm:block">
+                        with our dealership's trusted service
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>  
 
             <section class="bg-cyan-400 pt-10 pb-0 relative min-h-[300px]">
                 <div class="text-center mb-10">
