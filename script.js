@@ -213,10 +213,12 @@ const carMakeLogos = {
     'BMW': 'https://www.carlogos.org/car-logos/bmw-logo-2020-blue-white.png',
     'Ford': 'https://www.carlogos.org/car-logos/ford-logo-2017.png',
     'Honda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Honda_logo.svg/60px-Honda_logo.svg.png',
-'Kia': 'https://logos-world.net/wp-content/uploads/2021/03/Kia-Logo.png',
+    'Kia': 'https://logos-world.net/wp-content/uploads/2021/03/Kia-Logo.png',
     'Nissan': 'https://www.carlogos.org/logo/Nissan-logo-2013-1440x900.png',
     'Volkswagen': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Volkswagen_logo_2019.svg/60px-Volkswagen_logo_2019.svg.png',
-    'Mini': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/MINI_logo.svg/60px-MINI_logo.svg.png'
+    'Mini': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/MINI_logo.svg/60px-MINI_logo.svg.png',
+    'Audi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/60px-Audi-Logo_2016.svg.png',
+    'Vauxhall': 'https://www.carlogos.org/car-logos/vauxhall-logo.png'
 };
 
 
