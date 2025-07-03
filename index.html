@@ -1279,7 +1279,6 @@
         </div>
 
         <!-- Car Detail Page -->
-        <!-- Car Detail Page -->
 <div id="car-detail-page" class="page-content">
     <section class="py-16">
         <div class="container mx-auto px-4">
@@ -1294,24 +1293,24 @@
     
     <!-- Full Screen Image Modal -->
     <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden flex items-center justify-center">
-        <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-60">
-            <i class="fas fa-times"></i>
-        </button>
-        
-        <button onclick="previousModalImage()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-16 h-16 flex items-center justify-center">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        
-        <button onclick="nextModalImage()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-16 h-16 flex items-center justify-center">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-        
-        <img id="modal-image" src="" alt="Full size image" class="max-w-full max-h-full object-contain">
-        
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-lg">
-            <span id="modal-image-counter">1 / 1</span>
-        </div>
+    <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-3xl sm:text-4xl hover:text-gray-300 z-60">
+        <i class="fas fa-times"></i>
+    </button>
+    
+    <button onclick="previousModalImage()" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-white text-2xl sm:text-2xl hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-12 h-12 sm:w-[5px] sm:h-[5px] flex items-center justify-center">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <button onclick="nextModalImage()" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white text-2xl sm:text-2xl hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-12 h-12 sm:w-[5px] sm:h-[5px] flex items-center justify-center">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    
+    <img id="modal-image" src="" alt="Full size image" class="max-w-full max-h-full object-contain px-4 sm:px-0">
+    
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-base sm:text-lg">
+        <span id="modal-image-counter">1 / 1</span>
     </div>
+</div>
 </div>
 
         <!-- Search Results Page -->
