@@ -278,10 +278,13 @@
             <nav class="flex items-center justify-between h-20">
                 <!-- Logo -->
                 <div class="flex items-center space-x-2">
-                    <div class="text-3xl font-bold cursor-pointer" onclick="showPage('home')">
-                        <img src="logo2.png" class="h-[4rem] w-[9rem] md:h-[200px] md:w-[200px]"/>
-                    </div>
-                </div>
+    <div class="text-3xl font-bold cursor-pointer" onclick="showPage('home')">
+        <!-- Small screen logo -->
+        <img src="logo2.png" class="h-[4rem] w-[9rem] md:hidden"/>
+        <!-- Large screen logo -->
+        <img src="logo.png" class="hidden md:block md:h-[200px] md:w-[200px]"/>
+    </div>
+</div>
                 
                 <!-- Desktop Menu -->
                 <ul class="hidden lg:flex space-x-6 xl:space-x-8 text-gray-700">
