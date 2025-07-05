@@ -8,6 +8,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="icon" href="/logo3.png" type="image/x-icon">
 
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <style>
@@ -161,6 +162,87 @@
         background: #9ca3af;
     }
 
+#whatsapp-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.whatsapp-button a {
+  display: block;
+  padding: 10px;
+  border-radius: 50%;
+  /* background-color: white; */
+  /* WhatsApp green color */
+  position: relative;
+}
+
+.whatsapp-button a::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  border-radius: 50%;
+  border: 3px solid rgba(37, 211, 102, 0.5);
+  /* WhatsApp green color with transparency */
+  animation: ping 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  /* Animation effect */
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.whatsapp-button img {
+  width: 60px;
+  /* Adjust the size of the icon as needed */
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 768px) {
+  #whatsapp-button {
+    bottom: 30px;
+    right: 10px;
+  }
+
+  .whatsapp-button a {
+    padding: 8px;
+  }
+
+  .whatsapp-button img {
+    width: 50px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #whatsapp-button {
+    bottom: 20px;
+    right: 15px;
+  }
+
+  .whatsapp-button a {
+    padding: 6px;
+  }
+
+  .whatsapp-button img {
+    width: 40px;
+  }
+}
 
 
 
@@ -272,6 +354,15 @@
     </head>
 
     <body class="bg-gray-50">
+        <!-- Whatsapp -->
+
+            <div id="whatsapp-button" class="whatsapp-button ">
+        <a href="https://wa.me/+447445111681?text=Hello%20there!" target="_blank">
+          <img src="https://ik.imagekit.io/mctozv7td/Vaping%20Circle/whatsapp.png?updatedAt=1711462415230"
+            alt="WhatsApp Icon" />
+        </a>
+      </div>
+    
         <!-- Header -->
         <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4">
@@ -285,6 +376,7 @@
         <img src="logo.png" class="hidden md:block md:h-[200px] md:w-[200px]"/>
     </div>
 </div>
+
                 
                 <!-- Desktop Menu -->
                 <ul class="hidden lg:flex space-x-6 xl:space-x-8 text-gray-700">
@@ -666,42 +758,38 @@
                 <div class="container mx-auto px-4">
                     <h2 class="text-2xl font-semibold text-center mb-12">We love our clients</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <!-- Testimonial 1 -->
-                        <div class="bg-gray-50 p-8 rounded-lg relative">
-                            <div class="text-cyan-500 text-4xl mb-4">"</div>
-                            <p class="text-gray-700 mb-6">The BMW Z4 financial is embarking. The saloon made it both simpler
-                                benefiting of Jaguar to get a loan to move to the US.</p>
-                            <div class="mt-6">
-                                <p class="font-semibold">Janet</p>
-                                <p class="text-sm text-gray-500">Real Customer, USA</p>
-                            </div>
-                        </div>
+                   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Testimonial 1 -->
+    <div class="bg-gray-50 p-8 rounded-lg relative">
+        <div class="text-cyan-500 text-4xl mb-4">"</div>
+        <p class="text-gray-700 mb-6">Bought a Toyota Prius from Motorbay and I couldn't be happier. The car was in excellent condition, fully inspected, and the service was outstanding from start to finish. Highly recommended for anyone looking for reliable Japanese imports.</p>
+        <div class="mt-6">
+            <p class="font-semibold">Sarah M.</p>
+            <p class="text-sm text-gray-500">Verified Buyer, Manchester, UK</p>
+        </div>
+    </div>
 
-                        <!-- Testimonial 2 -->
-                        <div class="bg-gray-50 p-8 rounded-lg relative">
-                            <div class="text-cyan-500 text-4xl mb-4">"</div>
-                            <p class="text-gray-700 mb-6">Driving the Audi SUV brand Black Edition was pure exhilaration. The
-                                engine's smooth and responsive performance, combined with its agile and refined yet sport
-                                highway.</p>
-                            <div class="mt-6">
-                                <p class="font-semibold">Gilbert</p>
-                                <p class="text-sm text-gray-500">Automobile Review, Australia</p>
-                            </div>
-                        </div>
+    <!-- Testimonial 2 -->
+    <div class="bg-gray-50 p-8 rounded-lg relative">
+        <div class="text-cyan-500 text-4xl mb-4">"</div>
+        <p class="text-gray-700 mb-6">I was searching for a clean BMW 3 Series and found the perfect one here. Smooth purchase process, honest communication, and great value. Will definitely be back for my next car!</p>
+        <div class="mt-6">
+            <p class="font-semibold">James R.</p>
+            <p class="text-sm text-gray-500">Customer, Birmingham, UK</p>
+        </div>
+    </div>
 
-                        <!-- Testimonial 3 -->
-                        <div class="bg-gray-50 p-8 rounded-lg relative">
-                            <div class="text-cyan-500 text-4xl mb-4">"</div>
-                            <p class="text-gray-700 mb-6">The Mercedes Benz AMG GT Volvo Silver German luxury line is superb and
-                                as smooth as the interior is meticulously designed and incorporated as it makes a competent
-                                lipsides.</p>
-                            <div class="mt-6">
-                                <p class="font-semibold">Ellen</p>
-                                <p class="text-sm text-gray-500">Newsletter Team, UK</p>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Testimonial 3 -->
+    <div class="bg-gray-50 p-8 rounded-lg relative">
+        <div class="text-cyan-500 text-4xl mb-4">"</div>
+        <p class="text-gray-700 mb-6">Their selection of Japanese hybrid cars is amazing. I got a Nissan Note e-Power and the condition was like new. They handled the paperwork smoothly and even helped with registration. Top-notch experience!</p>
+        <div class="mt-6">
+            <p class="font-semibold">Ali H.</p>
+            <p class="text-sm text-gray-500">Hybrid Enthusiast, London, UK</p>
+        </div>
+    </div>
+</div>
+
 
                     <!-- Dots indicator -->
                     <div class="flex justify-center mt-8 gap-2">
