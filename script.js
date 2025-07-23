@@ -279,8 +279,13 @@ function generateFeaturesCheckboxes() {
 // After generateFeaturesCheckboxes function (around line 252), add:
 function initializeAddCarForm() {
     const featuresContainer = document.querySelector('#add-car-form .features-container');
-    if (featuresContainer && featuresContainer.innerHTML === '') {
+    if (featuresContainer) {
+        console.log('Initializing features container...');
         featuresContainer.innerHTML = generateFeaturesCheckboxes();
+    } else {
+        console.log('Features container not found, retrying...');
+        // Retry after a short delay if container not found
+        setTimeout(initializeAddCarForm, 100);
     }
 }
 
