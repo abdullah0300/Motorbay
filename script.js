@@ -762,7 +762,7 @@ function checkAdminSession() {
                     <div class="p-4">
                         <h3 class="text-lg font-semibold">${car.make} ${car.model}</h3>
                         <p class="text-gray-600 text-sm">${car.year} • ${car.fuel}</p>
-                        <p class="text-gray-600 text-sm">${car.mileage.toLocaleString()} km</p>
+                        <p class="text-gray-600 text-sm">${car.mileage.toLocaleString()} Miles</p>
                         <p class="text-xl font-bold text-cyan-500 mt-2">${car.price.toLocaleString()}</p>
                     </div>
                 </div>
@@ -943,7 +943,7 @@ ${car.images && car.images.split(',').length > 1 ? `
                                 <span class="text-gray-600 flex items-center gap-2">
                                     <i class="fas fa-road text-cyan-500"></i> Mileage
                                 </span>
-                                <span class="font-medium">${car.mileage.toLocaleString()} km</span>
+                                <span class="font-medium">${car.mileage.toLocaleString()} Miles</span>
                             </div>
                             <div class="flex justify-between items-center py-3 border-b hover:bg-gray-50 px-2 rounded transition">
                                 <span class="text-gray-600 flex items-center gap-2">
